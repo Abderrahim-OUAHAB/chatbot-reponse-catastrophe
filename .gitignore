@@ -1,0 +1,29 @@
+### === Backend (Python) === ###
+/backend/venv/  
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+*.egg-info/
+/dist/
+/build/
+/backend/.env
+/backend/.gitignore
+### === Frontend (React) === ###
+/frontend/node_modules/
+/frontend/.pnp
+/frontend/.pnp.js
+/frontend/build/
+/frontend/dist/
+/frontend/coverage/
+/frontend/.env.local
+/frontend/.env.*.local
+/frontend/npm-debug.log*
+/frontend/yarn-*.log*
+/frontend/.gitignore
+### === Général === ###
+.DS_Store           # macOS
+.idea/              # JetBrains IDE
+.vscode/            # VS Code
+*.swp               # Fichiers temporaires
