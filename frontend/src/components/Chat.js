@@ -72,7 +72,7 @@ const Chat = () => {
         {/* En-tête du chat */}
         <div className="border-b border-neutral-200 p-4 flex items-center gap-4">
           <img 
-            src="https://placehold.co/48x48" 
+            src="profIMG.png" 
             alt="Profile" 
             className="w-12 h-12 rounded-full border border-black"
           />

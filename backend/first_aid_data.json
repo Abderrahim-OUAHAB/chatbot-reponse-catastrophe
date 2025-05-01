@@ -1,0 +1,17 @@
+[
+  {
+    "text": "Heart attack emergency steps: 1. Call emergency services. 2. Have the person sit down...",
+    "metadata": {
+      "type": "emergency",
+      "severity": "high",
+      "source": "WHO Guidelines"
+    }
+  },
+  {
+    "text": "Choking first aid: Perform the Heimlich maneuver by standing behind the person...",
+    "metadata": {
+      "type": "emergency",
+      "severity": "medium"
+    }
+  }
+]
