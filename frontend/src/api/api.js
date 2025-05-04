@@ -1,12 +1,11 @@
-import axios from 'axios'
+import axios from 'axios';
 
-const API_URL='http://localhost:5000/api';
+const API_URL = 'http://localhost:5000';
 
-export const letsChat=async()=>{
-    try{
-        const response= await axios.get(`${API_URL}/chat`);
-        return response.data;
-    }catch{
-        console.error('Erreur de connection !');
-    }
+export const sendMessage = async (message) => {
+  return axios.post(`${API_URL}/ask`, { message });
+};
+
+export const initDocs = async () => {
+  return axios.post(`${API_URL}/init`);
 };

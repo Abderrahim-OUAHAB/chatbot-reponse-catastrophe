@@ -12,5 +12,5 @@ sleep 5
 echo "Poser une question..."
 curl -X POST http://localhost:5000/ask \
 -H "Content-Type: application/json" \
--d '{"message":"Que faire pour une crise cardiaque ?"}'
+-d '{"message":"Que faire pour une personne en coma ?"}'
 echo ""

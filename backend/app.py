@@ -4,9 +4,10 @@ from groq_utils import get_llm
 from langchain.chains import ConversationalRetrievalChain
 from langchain.memory import ConversationBufferWindowMemory
 from langchain.prompts import PromptTemplate
+from flask_cors import CORS
 
 app = Flask(__name__)
-
+CORS(app, origins=["http://localhost:3000"])
 # Configuration du prompt personnalisé
 PROMPT_TEMPLATE = """Vous êtes un assistant de premiers secours médical. Utilisez le contexte suivant pour répondre à la question.
 
@@ -22,7 +23,7 @@ Instructions pour la réponse:
 3. Listez les étapes clairement avec des numéros
 4. Pour les urgences, commencez par "PROCÉDURE D'URGENCE :"
 5. En cas de doute, dites "Consultez immédiatement un professionnel de santé"
-
+5. Si la question ne se trouve pas dans les documents que je te déja données, repondez toi meme avec une explication claire et concise ...
 Répondez dans la langue de l'utilisateur quand possible:
 """
 
