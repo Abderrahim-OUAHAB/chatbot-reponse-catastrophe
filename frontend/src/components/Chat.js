@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { sendMessage, initDocs } from "../api/api";
 
 const Chat = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
+  const [search, setSearch] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -33,6 +34,12 @@ const Chat = () => {
     }
   };
 
+  const filteredMessages = useMemo(() => {
+    return messages.filter((msg) =>
+      msg.content.toLowerCase().includes(search.toLowerCase())
+    );
+  }, [messages, search]);
+
   return (
     <div className="flex h-screen bg-neutral-100">
       {/* Sidebar gauche */}
@@ -46,8 +53,24 @@ const Chat = () => {
             <input 
               type="text" 
               placeholder="Search chats" 
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
               className="flex-1 text-zinc-500 text-base font-normal outline-none"
             />
+          </div>
+
+          <div className="mt-4 space-y-2">
+            {filteredMessages
+              .filter((msg) => msg.role === "user")
+              .map((msg, idx) => (
+                <div
+                  key={idx}
+                  className="px-4 py-3 rounded-lg hover:bg-neutral-50 cursor-pointer"
+                >
+                  <p className="text-zinc-700 truncate">{msg.content}</p>
+                  <hr></hr>
+                </div>
+              ))}
           </div>
         </div>
       </div>
@@ -133,11 +156,10 @@ const Chat = () => {
           <img src="profIMG.png" alt="Profile" className="w-32 h-32 rounded-full border border-black" />
           <div className="text-center">
             <h3 className="text-black font-medium">RespoBot</h3>
-            <p className="text-zinc-700">Let's Chat Now !</p>
           </div>
         </div>
         <button className="mt-8 w-full bg-black text-white py-2 px-4 rounded-lg flex justify-center items-center gap-2">
-          Statistiques
+          Let's Chat Now !
         </button>
       </div>
     </div>

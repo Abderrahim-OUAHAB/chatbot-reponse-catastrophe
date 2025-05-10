@@ -1,6 +1,6 @@
 [
   {
-    "text": "Heart attack emergency steps: 1. Call emergency services. 2. Have the person sit down...",
+    "text": "Heart attack emergency steps: 1. Call emergency services (15). 2. Have the person sit or lie down. 3. Give aspirin if available. 4. Monitor breathing. 5. Start CPR if unconscious.",
     "metadata": {
       "type": "emergency",
       "severity": "high",
@@ -8,10 +8,58 @@
     }
   },
   {
-    "text": "Choking first aid: Perform the Heimlich maneuver by standing behind the person...",
+    "text": "Choking first aid: Heimlich maneuver: Stand behind the person, place fist above the navel, thrust inward and upward until object is expelled.",
     "metadata": {
       "type": "emergency",
       "severity": "medium"
+    }
+  },
+  {
+    "text": "Contact des hôpitaux d'urgence à Casablanca : Hôpital Ibn Rochd - Urgences médicales : 0522-22-25-25 | SAMU : 15",
+    "metadata": {
+      "city": "Casablanca",
+      "type": "contact",
+      "category": "hospital"
+    }
+  },
+  {
+    "text": "Contact des hôpitaux à Rabat : Hôpital Ibn Sina - Urgences 24h/24 : 0537-67-98-00 | Police : 19 | Protection civile : 0522-40-10-10",
+    "metadata": {
+      "city": "Rabat",
+      "type": "contact",
+      "category": "hospital"
+    }
+  },
+  {
+    "text": "Ambulances à Marrakech : SAMU régional : 0524-43-34-55 | Hôpital Ibn Tofail : 0524-44-86-00",
+    "metadata": {
+      "city": "Marrakech",
+      "type": "contact",
+      "category": "emergency"
+    }
+  },
+  {
+    "text": "Hôpital Hassan II à Agadir : Urgences générales : 0528-23-74-00 | SAMU : 15 | Pompiers : 150",
+    "metadata": {
+      "city": "Agadir",
+      "type": "contact",
+      "category": "hospital"
+    }
+  },
+  {
+    "text": "Urgences Fès : Hôpital Ghassani : 0535-62-31-00 | SAMU : 15 | Protection civile : 0522-40-10-10",
+    "metadata": {
+      "city": "Fès",
+      "type": "contact",
+      "category": "hospital"
+    }
+  },
+  {
+    "text": "Services d'urgence à Tanger : Hôpital Mohammed V : 0539-32-03-30 | Ambulance : 15 | Police secours : 19",
+    "metadata": {
+      "city": "Tanger",
+      "type": "contact",
+      "category": "hospital"
     }
   }
 ]
