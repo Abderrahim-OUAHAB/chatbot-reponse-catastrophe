@@ -6,6 +6,8 @@ const Chat = () => {
   const [input, setInput] = useState("");
   const [search, setSearch] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [userLocation, setUserLocation] = useState(null);
+  const [locationError, setLocationError] = useState(null);
 
   useEffect(() => {
     initDocs()
@@ -13,7 +15,61 @@ const Chat = () => {
       .catch((err) => console.error("Erreur init:", err));
   }, []);
 
-  const handleSend = async () => {
+  const handleGetLocation = () => {
+    if (!navigator.geolocation) {
+        setMessages(prev => [...prev, {
+            role: "bot",
+            content: "La géolocalisation n'est pas supportée par votre navigateur"
+        }]);
+        return;
+    }
+
+    setIsLoading(true);
+    setLocationError(null);
+
+    const options = {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0
+    };
+
+    const success = (position) => {
+        const { latitude, longitude } = position.coords;
+        setUserLocation({ latitude, longitude });
+        setIsLoading(false);
+        setMessages(prev => [...prev, {
+            role: "bot",
+            content: "Localisation enregistrée avec succès"
+        }]);
+    };
+
+    const error = (err) => {
+        setIsLoading(false);
+        let errorMessage = "Erreur de géolocalisation - ";
+        switch(err.code) {
+            case err.PERMISSION_DENIED:
+                errorMessage += "Vous avez refusé l'accès à la localisation";
+                break;
+            case err.POSITION_UNAVAILABLE:
+                errorMessage += "Les informations de localisation ne sont pas disponibles";
+                break;
+            case err.TIMEOUT:
+                errorMessage += "La requête de localisation a expiré";
+                break;
+            default:
+                errorMessage += "Erreur inconnue";
+        }
+        setLocationError(errorMessage);
+        setMessages(prev => [...prev, {
+            role: "bot",
+            content: errorMessage
+        }]);
+    };
+
+    navigator.geolocation.getCurrentPosition(success, error, options);
+};
+
+const handleSend = async () => {
     if (!input.trim()) return;
 
     const userMsg = { role: "user", content: input };
@@ -22,17 +78,32 @@ const Chat = () => {
     setIsLoading(true);
 
     try {
-      const res = await sendMessage(input);
-      const botMsg = { role: "bot", content: res.data.answer };
-      setMessages((prev) => [...prev, botMsg]);
+        const res = await sendMessage(input, userLocation);
+        
+        // Gestion robuste de la réponse
+        if (res.data && typeof res.data.answer === 'string') {
+            const botMsg = { role: "bot", content: res.data.answer };
+            setMessages((prev) => [...prev, botMsg]);
+        } else if (res.data && res.data.error) {
+            throw new Error(res.data.error);
+        } else {
+            throw new Error("Format de réponse inattendu");
+        }
     } catch (err) {
-      const errorMsg = { role: "bot", content: "Erreur serveur" };
-      setMessages((prev) => [...prev, errorMsg]);
-      console.error(err);
+        console.error("Erreur API:", err);
+        const errorContent = err.response?.data?.details || 
+                          err.response?.data?.error || 
+                          err.message || 
+                          "Erreur lors de la communication avec le serveur";
+        
+        setMessages(prev => [...prev, {
+            role: "bot",
+            content: `Erreur: ${errorContent}`
+        }]);
     } finally {
-      setIsLoading(false);
+        setIsLoading(false);
     }
-  };
+};
 
   const filteredMessages = useMemo(() => {
     return messages.filter((msg) =>
@@ -126,26 +197,51 @@ const Chat = () => {
 
         {/* Saisie */}
         <div className="border-t border-neutral-200 p-4">
-          <div className="max-w-3xl mx-auto flex items-center gap-4 p-2 border border-neutral-200 rounded-lg">
-            <input 
-              type="text" 
-              placeholder="Enter your message" 
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") handleSend();
-              }}
-              className="flex-1 text-zinc-500 text-base font-normal outline-none px-2"
-            />
-            <svg 
-              className="w-6 h-6 text-zinc-500 cursor-pointer"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              onClick={handleSend}
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-            </svg>
+          <div className="max-w-3xl mx-auto">
+            {locationError && (
+              <div className="text-red-500 text-sm mb-2">{locationError}</div>
+            )}
+            <div className="flex items-center gap-4 p-2 border border-neutral-200 rounded-lg">
+              <input 
+                type="text" 
+                placeholder="Enter your message" 
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") handleSend();
+                }}
+                className="flex-1 text-zinc-500 text-base font-normal outline-none px-2"
+              />
+              <button 
+                onClick={handleGetLocation} 
+                title="Obtenir la localisation"
+                className="disabled:opacity-50"
+                disabled={isLoading}
+              >
+                <svg 
+                  className="w-6 h-6 text-zinc-500"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} alt="Obtenir la localisation" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/>
+                </svg>
+              </button>
+              <button 
+                onClick={handleSend}
+                disabled={isLoading}
+                className="disabled:opacity-50"
+              >
+                <svg 
+                  className="w-6 h-6 text-zinc-500"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>
