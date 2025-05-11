@@ -28,3 +28,13 @@ export const initDocs = async () => {
     throw error;
   }
 };
+
+export const resetConversation = async () => {
+  try {
+    const response = await axios.post(`${API_URL}/reset`);
+    return response.data;
+  } catch (error) {
+    console.error('Error resetting conversation:', error);
+    throw error;
+  }
+};

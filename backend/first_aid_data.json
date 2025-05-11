@@ -15,51 +15,139 @@
     }
   },
   {
-    "text": "Contact des hôpitaux d'urgence à Casablanca : Hôpital Ibn Rochd - Urgences médicales : 0522-22-25-25 | SAMU : 15",
+    "id": "EMER-001",
+    "title": "Prise en charge de l'infarctus du myocarde",
+    "content": {
+      "procedure": [
+        "1. Appelez immédiatement le SAMU (15) ou les secours d'urgence (112)",
+        "2. Faire asseoir ou allonger la personne en position semi-assise",
+        "3. Donner 300mg d'aspirine à mâcher (si disponible et non allergique)",
+        "4. Desserrer les vêtements serrés",
+        "5. Surveiller la conscience et la respiration en permanence",
+        "6. Préparer un défibrillateur si disponible"
+      ],
+      "warning_signs": [
+        "Douleur thoracique intense prolongée",
+        "Sensation d'oppression",
+        "Irradiation à la mâchoire/bras gauche",
+        "Sueurs froides",
+        "Nausées",
+        "Essoufflement"
+      ],
+      "donts": [
+        "Ne pas laisser la personne seule",
+        "Ne pas donner à manger ou boire",
+        "Ne pas minimiser les symptômes"
+      ]
+    },
     "metadata": {
-      "city": "Casablanca",
-      "type": "contact",
-      "category": "hospital"
+      "type": "emergency",
+      "severity": "critical",
+      "source": "Société Française de Cardiologie 2023",
+      "validation_date": "2025-01-15",
+      "related_services": [
+        {
+          "name": "SAMU",
+          "phone": "15"
+        },
+        {
+          "name": "Pompiers",
+          "phone": "18"
+        }
+      ],
+      "time_critical": "5-10 min",
+      "illustration": "heart_attack_procedure.png"
     }
   },
   {
-    "text": "Contact des hôpitaux à Rabat : Hôpital Ibn Sina - Urgences 24h/24 : 0537-67-98-00 | Police : 19 | Protection civile : 0522-40-10-10",
+    "id": "EMER-002",
+    "title": "Manœuvre de Heimlich pour obstruction des voies aériennes",
+    "content": {
+      "procedure": [
+        "1. Identifier l'obstruction complète (personne ne peut parler/tousser)",
+        "2. Se placer derrière la personne, pieds écartés pour stabilité",
+        "3. Placer un poing fermé au-dessus du nombril, sous le sternum",
+        "4. Main libre par-dessus le poing",
+        "5. Effectuer des compressions abdominales fermes vers l'intérieur et le haut",
+        "6. Répéter jusqu'à expulsion du corps étranger ou perte de conscience"
+      ],
+      "variations": [
+        {
+          "scenario": "Femme enceinte/obèse",
+          "technique": "Compressions thoraciques au niveau de la moitié inférieure du sternum"
+        },
+        {
+          "scenario": "Personne inconsciente",
+          "technique": "Débuter la RCP (30 compressions/2 insufflations)"
+        }
+      ],
+      "prevention": [
+        "Couper les aliments en petits morceaux",
+        "Éviter de parler en mangeant",
+        "Surveillance accrue enfants <5 ans"
+      ]
+    },
     "metadata": {
-      "city": "Rabat",
-      "type": "contact",
-      "category": "hospital"
+      "type": "emergency",
+      "severity": "high",
+      "source": "Référentiel PSE1 2024",
+      "validation_date": "2024-11-20",
+      "age_specific": {
+        "infants": "Technique différente (claques dans le dos)",
+        "children": "Adapter la force des compressions"
+      },
+      "success_rate": "85%",
+      "video_tutorial": "heimlich_demonstration.mp4"
     }
   },
   {
-    "text": "Ambulances à Marrakech : SAMU régional : 0524-43-34-55 | Hôpital Ibn Tofail : 0524-44-86-00",
+    "id": "EMER-003",
+    "title": "Prise en charge des brûlures thermiques",
+    "content": {
+      "steps": [
+        "1. Refroidir immédiatement sous eau tempérée (15-25°C) pendant 15-20 min",
+        "2. Retirer délicatement bijoux/vêtements non adhérents",
+        "3. Protéger avec un linge propre humide",
+        "4. Évaluer la surface brûlée (règle des 9%)"
+      ],
+      "classification": [
+        {
+          "degree": "1er degré",
+          "symptoms": "Rougeur sans phlyctène",
+          "care": "Hydratation locale"
+        },
+        {
+          "degree": "2ème degré",
+          "symptoms": "Phlyctènes, douleur intense",
+          "care": "Protection stérile, avis médical"
+        },
+        {
+          "degree": "3ème degré",
+          "symptoms": "Peau carbonisée, insensibilité",
+          "care": "Urgence vitale (appeler le 15)"
+        }
+      ],
+      "emergency_thresholds": [
+        "Brûlure >10% surface corporelle",
+        "Brûlure visage/mains/organes génitaux",
+        "Brûlure par inhalation"
+      ]
+    },
     "metadata": {
-      "city": "Marrakech",
-      "type": "contact",
-      "category": "emergency"
-    }
-  },
-  {
-    "text": "Hôpital Hassan II à Agadir : Urgences générales : 0528-23-74-00 | SAMU : 15 | Pompiers : 150",
-    "metadata": {
-      "city": "Agadir",
-      "type": "contact",
-      "category": "hospital"
-    }
-  },
-  {
-    "text": "Urgences Fès : Hôpital Ghassani : 0535-62-31-00 | SAMU : 15 | Protection civile : 0522-40-10-10",
-    "metadata": {
-      "city": "Fès",
-      "type": "contact",
-      "category": "hospital"
-    }
-  },
-  {
-    "text": "Services d'urgence à Tanger : Hôpital Mohammed V : 0539-32-03-30 | Ambulance : 15 | Police secours : 19",
-    "metadata": {
-      "city": "Tanger",
-      "type": "contact",
-      "category": "hospital"
+      "type": "first_aid",
+      "severity": "variable",
+      "source": "Guide SFETD 2025",
+      "donts": [
+        "Ne pas appliquer de corps gras",
+        "Ne pas percer les phlyctènes",
+        "Ne pas utiliser de glace"
+      ],
+      "specialized_centers": [
+        {
+          "name": "Centre Grands Brûlés",
+          "phone": "0800 800 800"
+        }
+      ]
     }
   }
 ]

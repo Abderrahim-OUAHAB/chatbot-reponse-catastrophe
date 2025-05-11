@@ -21,9 +21,9 @@ Question:
 {question}
 
 Règles strictes:
-1. Si la question est une urgence (brûlure, crise cardiaque, inconscience...), commencez par "PROCÉDURE D'URGENCE :"
+1. Si la question est une urgence (brûlure, crise cardiaque, inconscience...), commencez par "PROCÉDURE D'URGENCE :" puis dites les procsédures de secours ,s'ils ne le sont pas indiqués dans le contexte , repondez toi meme.
 2. Utilisez des phrases brèves. Maximum 3 phrases.
-3. Si possible, ajoutez un numéro d'urgence ou un établissement local dans la ville concernée (ex: Hôpital Ibn Sina à Rabat, 0537-67-98-00).
+3. Si possible, ajoutez un numéro d'urgence du maroc.
 4. Toujours dire "Appelez le 15 (SAMU)" ou "le 19 (Police)" si la vie est en danger.
 5. Si l'information ne vient pas des documents, reformulez une réponse fiable basée sur les bonnes pratiques de premiers secours.
 6. N'inventez jamais une source.
@@ -53,7 +53,7 @@ memory = ConversationBufferWindowMemory(
 
 qa_chain = ConversationalRetrievalChain.from_llm(
     llm=llm,
-    retriever=vectorstore.as_retriever(search_kwargs={"k": 3}),
+    retriever=vectorstore.as_retriever(search_kwargs={"k": 1}),
     memory=memory,
     combine_docs_chain_kwargs={"prompt": prompt},
     return_source_documents=True,
@@ -213,7 +213,7 @@ def find_nearest_hospital(lat, lon):
         if hospital_info['coordinates']:
             lon, lat = hospital_info['coordinates']
             maps_link = f"https://www.google.com/maps/search/?api=1&query={lat},{lon}"
-            result += f"\n🗺️ Itinéraire: {maps_link}"
+            result += f"\n{maps_link}"
             
         result += f"\n📏 Distance: {hospital_info['distance']} mètres"
         
@@ -228,6 +228,53 @@ def find_nearest_hospital(lat, lon):
     except Exception as e:
         print(f"Erreur inattendue: {str(e)}")
         return "\n\nErreur lors de la recherche d'établissements médicaux"
+    
+    
+    
+@app.route('/reset', methods=['POST'])
+def reset_conversation():
+    try:
+        # Réinitialisation complète comme un redémarrage
+        global llm, vectorstore, memory, qa_chain
+        
+        # 1. Réinitialiser les composants LangChain
+        llm = get_llm()  # Recréer une nouvelle instance LLM
+        vectorstore = init_pinecone()  # Recharger le vectorstore
+        
+        # 2. Recréer la mémoire avec un nouvel ID de session
+        memory = ConversationBufferWindowMemory(
+            memory_key="chat_history",
+            return_messages=True,
+            output_key='answer',
+            k=1
+        )
+        
+        # 3. Recréer la chaîne de conversation
+        qa_chain = ConversationalRetrievalChain.from_llm(
+            llm=llm,
+            retriever=vectorstore.as_retriever(search_kwargs={"k": 3}),
+            memory=memory,
+            combine_docs_chain_kwargs={"prompt": prompt},
+            return_source_documents=True,
+            output_key='answer',
+            verbose=False
+        )
+        
+        # 4. Nettoyer les variables d'état
+        # (Ajoutez ici d'autres variables globales à réinitialiser)
+        
+        return jsonify({
+            "status": "success",
+            "message": "Conversation complètement réinitialisée",
+            "new_session_id": str(id(memory))  # Identifiant unique pour debug
+        })
+        
+    except Exception as e:
+        print(f"Erreur lors de la réinitialisation: {str(e)}", flush=True)
+        return jsonify({
+            "status": "error",
+            "message": f"Échec de la réinitialisation: {str(e)}"
+        }), 500
     
     
 if __name__ == '__main__':
